@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 用于控制开始游戏与继续游戏按钮的逻辑处理
+/// </summary>
 public class ButtonToStart : MonoBehaviour {
 
     public void ToNewGame() {

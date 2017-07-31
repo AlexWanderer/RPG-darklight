@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 
+/// <summary>
+/// 用于控制开始时的遮罩消失
+/// </summary>
 public class Whitescreen : MonoBehaviour {
 
     public float speed = 3;
