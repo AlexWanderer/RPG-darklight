@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 用于控制摄像头跟随玩家
+/// </summary>
 public class FollowPlayer : MonoBehaviour {
 
     private Transform player;
@@ -21,7 +24,6 @@ public class FollowPlayer : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
         transform.position = player.position - offsetposition;
 

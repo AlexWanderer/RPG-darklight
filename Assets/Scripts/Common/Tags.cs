@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 用于存储gameobject的标签，可直接调用
+/// </summary>
 public class Tags : MonoBehaviour {
 
     public const string ground = "Ground";  //Terrain 地面标签 

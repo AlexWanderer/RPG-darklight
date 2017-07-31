@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 枚举人物动作
+/// </summary>
 public enum PlayState {
     Moving,
     Idle
 }
 
+/// <summary>
+/// 用于存储有关的动作的名字，可直接调用对应的变量名，减少出错
+/// </summary>
 public class Animations : MonoBehaviour {
 
     public const string magc_Attack1 = "Attack1";

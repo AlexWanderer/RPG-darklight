@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+/// <summary>
+/// 用于选择角色，如向前向后的处理，获取名字等
+/// </summary>
 public class Charactor_Creation : MonoBehaviour {
 
     public GameObject[] charactor_perfab;

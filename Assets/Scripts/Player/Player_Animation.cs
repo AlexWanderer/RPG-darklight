@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 用于处理播放人物的动作动画
+/// </summary>
 public class Player_Animation : MonoBehaviour {
 
     private Player_Move move;
@@ -12,7 +15,6 @@ public class Player_Animation : MonoBehaviour {
         anima = this.GetComponent<Animation>();
 	}
 	
-	// Update is called once per frame
 	void LateUpdate () {
         if (move.state == PlayState.Moving)
         {
