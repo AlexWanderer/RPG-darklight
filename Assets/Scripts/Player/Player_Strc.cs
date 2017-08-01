@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 通过射线碰撞RayColider跟随鼠标调整朝向
@@ -22,7 +23,7 @@ public class Player_Strc : MonoBehaviour {
 
     void Update () {
         //若按下鼠标左键一下，则调整人物朝向
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&& EventSystem.current.IsPointerOverGameObject() == false)
         {
             
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);  //获取从屏幕到鼠标点击位置的射线
