@@ -12,6 +12,10 @@ public class Player_State : MonoBehaviour {
     public int MP = 100;   //魔力值
     public int gold = 200; //金币数
 
+    public void AddGold(int count)
+    {
+        gold += count;
+    }
 
 	
 }
