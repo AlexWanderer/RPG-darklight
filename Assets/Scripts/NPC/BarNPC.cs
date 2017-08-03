@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BarNPC : MonoBehaviour {
+public class BarNPC : NPC {
 
     public GameObject quest;
     public GameObject accpet;
