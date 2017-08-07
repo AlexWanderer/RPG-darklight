@@ -43,7 +43,7 @@ public class ObjectsInfo : MonoBehaviour {
         {
             string[] proArray = str.Split(',');
             ObjectInfo info = new ObjectInfo();
-
+        
             info.ID = int.Parse(proArray[0]);
             info.name = proArray[1];
             info.name_Icon = proArray[2];
@@ -69,7 +69,7 @@ public class ObjectsInfo : MonoBehaviour {
                 info.price_Buy = int.Parse(proArray[7]);
 
             }
-
+          
             objectInfoDic.Add(info.ID, info);
         }
     }
