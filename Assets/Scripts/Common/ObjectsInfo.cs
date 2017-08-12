@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class ObjectsInfo : MonoBehaviour {
 
-    public ObjectsInfo _instance;
+    public static ObjectsInfo _instance;
     public TextAsset objectsInfoListText;  //用于获得文本中的物品信息
 
     private Dictionary<int,ObjectInfo> objectInfoDic= new Dictionary<int,ObjectInfo>();//创建一个存放物品信息的字典 通过ID查找
