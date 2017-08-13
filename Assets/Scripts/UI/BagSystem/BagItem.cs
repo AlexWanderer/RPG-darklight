@@ -32,7 +32,6 @@ public class BagItem : MonoBehaviour {
         ObjectInfo info = ObjectsInfo._instance.GetObjectInfoById(id);
         itemImage.name = info.name_Icon;
         string path = "Icon/" + info.name_Icon;
-        Debug.Log(path);
         itemImage.sprite = Resources.Load(path)as Sprite;
     }
 
@@ -44,7 +43,6 @@ public class BagItem : MonoBehaviour {
     {
         itemImage.name = nameIcon;
         string path = "Icon/" + nameIcon;
-        Debug.Log(path);
         itemImage.sprite = Resources.Load(path,typeof(Sprite)) as Sprite;
     }
 }

@@ -36,7 +36,7 @@ public class MenuButton : MonoBehaviour {
     /// </summary>
     public void ClickBtBagDown()
     {
-
+        Bag._intanceBag.BagState();
     }
 
     /// <summary>

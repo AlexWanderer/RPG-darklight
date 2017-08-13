@@ -5,17 +5,23 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BagItemGrid : MonoBehaviour
+public class BagItemGrid : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandler
+    ,IPointerEnterHandler,IPointerExitHandler
 {
     public int id = 0;  //物品ID
-    private int count = 0;  //物品数量
-    private ObjectInfo info = null;  //物品信息
+
+    public int count = 0;  //物品数量
+    public ObjectInfo info = null;  //物品信息
     private Text itemCount;  //用于显示物品数量
+    
+    
 
     private void Start()
     {
         itemCount = this.GetComponentInChildren<Text>();
     }
+
+
 
     /// <summary>
     /// 将对应的物品显示在Grid方格中
@@ -49,5 +55,94 @@ public class BagItemGrid : MonoBehaviour
         info = null;
         count = 0;
         itemCount.enabled = false;
+    }
+
+    /// <summary>
+    /// 左键按下开始拖拽的回调函数
+    /// </summary>
+    public static Action<Transform> OnLeftBeginDrag;
+    /// <summary>
+    /// 结束拖拽的回调函数
+    /// </summary>
+    public static Action<Transform,Transform> OnLeftEndDrag;
+
+    /// <summary>
+    /// 开始拖拽事件
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (OnLeftBeginDrag != null)
+            {
+                OnLeftBeginDrag(transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 拖拽中
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnDrag(PointerEventData eventData)
+    {
+    }
+
+    /// <summary>
+    /// 结束拖拽时
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (eventData.pointerEnter == null)
+            {
+                OnLeftEndDrag(transform,null);
+            }else
+            {
+                OnLeftEndDrag(transform, eventData.pointerEnter.transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 用于处理鼠标进入Item显示详情的回调函数
+    /// </summary>
+    public static Action<Transform> OnEnter;
+    /// <summary>
+    /// 用于处理鼠标离开Item隐藏详情的回调函数
+    /// </summary>
+    public static Action OnExit;
+
+    /// <summary>
+    /// 当鼠标进入Item
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (eventData.pointerEnter.tag == Tags.grid)
+        {
+            if (OnEnter != null)
+            {
+                OnEnter(transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 当鼠标离开Item
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (eventData.pointerEnter.tag == Tags.grid)
+        {
+            if (OnExit != null)
+            {
+                OnExit();
+            }
+        }
     }
 }
