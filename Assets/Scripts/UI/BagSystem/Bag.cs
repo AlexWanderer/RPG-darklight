@@ -15,16 +15,18 @@ public class Bag : MonoBehaviour {
     public Vector3 showBagPos = new Vector3(180, 0, 0);
 
     public List<BagItemGrid> itemGridList = new List<BagItemGrid>();
-    public int coinCount = 1000;
     public Text coinText;
     public GameObject bagItem;
     public DragItemUI dragItem;
     public Camera uiCamera;
     public ItemDecUI itemDecUI;
+    public Player_State playerState; //玩家状态
 
     private bool isDrag = false; //用于判断是否处于拖拽
     private bool showingBag = false; //用于判断背包是否在显示
     private bool showingDec = false; //用于判断详情面板是否显示
+    private bool getSuccess = false; //用于判断是否成功放入背包
+    
 
     private void Awake()
     {
@@ -64,12 +66,12 @@ public class Bag : MonoBehaviour {
     /// 处理拾取物品的功能
     /// </summary>
     /// <param name="id"></param>
-    public void GetID(int id)
+    public bool GetID(int id, int count = 1)
     {
         //查找在所有物品中是否有该物品
         //如果存在 count +1 
         //不存在，查找空的方格，然后把新创建的BagItem放到这个空的方格中
-
+        getSuccess = false;
         BagItemGrid grid = null;
         foreach (BagItemGrid temp in itemGridList)
         {
@@ -81,7 +83,8 @@ public class Bag : MonoBehaviour {
         }
         if(grid != null)
         {
-            grid.PlusCount();
+            grid.PlusCount(count);
+            getSuccess = true;
         }
         else
         {
@@ -97,9 +100,11 @@ public class Bag : MonoBehaviour {
             {
                 GameObject itemGo = Instantiate(bagItem,grid.transform);
                 itemGo.transform.localPosition = Vector3.zero;
-                grid.SetByID(id);
+                grid.SetByID(id,count);
+                getSuccess = true;
             }
         }
+        return getSuccess;
     }
 
     /// <summary>
@@ -108,7 +113,9 @@ public class Bag : MonoBehaviour {
     private void ShowBag()
     {
         showingBag = true;
+        UpdateGold();
         transform.localPosition = showBagPos;
+       
     }
 
     /// <summary>
@@ -203,6 +210,10 @@ public class Bag : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// 鼠标进入显示物品详情
+    /// </summary>
+    /// <param name="gridTransform"></param>
     private void BagItemGrid_OnEnter(Transform gridTransform)
     {
         BagItemGrid bagItemGrid = gridTransform.gameObject.GetComponent<BagItemGrid>();
@@ -217,12 +228,20 @@ public class Bag : MonoBehaviour {
         showingDec = true;
     }
 
+    /// <summary>
+    /// 鼠标移开隐藏物品详情
+    /// </summary>
     private void BagItemGrid_OnExit()
     {
         itemDecUI.CloseDec();
         showingDec = false;
     }
 
+    /// <summary>
+    /// 获取物品详情的文本
+    /// </summary>
+    /// <param name="decInfo"></param>
+    /// <returns></returns>
     private string GetDecText(ObjectInfo decInfo)
     {
         if (decInfo == null)
@@ -244,5 +263,13 @@ public class Bag : MonoBehaviour {
 
         str.AppendFormat("<size=16><color=yellow>购买价格：{0}\n出售价格：{1}\n\n</color></size>", decInfo.price_Buy, decInfo.price_Sell);
         return str.ToString();
+    }
+
+    /// <summary>
+    /// 更新金币数量
+    /// </summary>
+    public void UpdateGold()
+    {
+        coinText.text = playerState.gold.ToString();
     }
 }

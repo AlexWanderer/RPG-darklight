@@ -7,12 +7,17 @@ using UnityEngine;
 /// </summary>
 public class MenuButton : MonoBehaviour {
 
+    public bool showingStatus = false;
+    public bool showingEquipment = false;
+    public GameObject statusUI;
+    public GameObject equipment;
+
     /// <summary>
     /// 按下Status按键
     /// </summary>
     public void ClickBtStatusDown()
     {
-
+        StatusState();
     }
 
     /// <summary>
@@ -28,7 +33,7 @@ public class MenuButton : MonoBehaviour {
     /// </summary>
     public void ClickBtEquipDown()
     {
-
+        EquipmentState();
     }
 
     /// <summary>
@@ -45,5 +50,42 @@ public class MenuButton : MonoBehaviour {
     public void ClickBtSettingDown()
     {
 
+    }
+
+
+    /// <summary>
+    /// 控制属性面板的显示与隐藏
+    /// </summary>
+    private void StatusState()
+    {
+        if (!showingStatus)
+        {
+            statusUI.SetActive(true);
+            StatusUI._instanceStatus.UpdateStatus();
+            showingStatus = true;
+        }
+        else
+        {
+            showingStatus = false;
+            statusUI.SetActive(false);
+        }
+
+    }
+
+    /// <summary>
+    /// 装备面板属性的显示与隐藏
+    /// </summary>
+    private void EquipmentState()
+    {
+        if (!showingEquipment)
+        {
+            equipment.SetActive(true);
+            showingEquipment = true;
+        }
+        else
+        {
+            showingEquipment = false;
+            equipment.SetActive(false);
+        }
     }
 }
