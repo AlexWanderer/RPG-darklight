@@ -69,6 +69,52 @@ public class ObjectsInfo : MonoBehaviour {
                 info.price_Buy = int.Parse(proArray[7]);
 
             }
+            else if (info.type == objectType.Equip)
+            {
+                info.attackValue = int.Parse(proArray[4]);
+                info.defValue = int.Parse(proArray[5]);
+                info.speedValue = int.Parse(proArray[6]);
+                string temp = proArray[7];
+                switch (temp)
+                {
+                    case "Armor":
+                        info.equipmentType = EquipmentType.Armor;
+                        break;
+                    case "Headgear":
+                        info.equipmentType = EquipmentType.Headgear;
+                        break;
+                    case "Shoe":
+                        info.equipmentType = EquipmentType.Shoe;
+                        break;
+                    case "LeftHand":
+                        info.equipmentType = EquipmentType.LeftHand;
+                        break;
+                    case "RightHand":
+                        info.equipmentType = EquipmentType.RightHand;
+                        break;
+                    case "Accessory":
+                        info.equipmentType = EquipmentType.Accessory;
+                        break;
+                }
+                temp = null;
+                temp = proArray[8];
+                switch (temp)
+                {
+                    case "Swordman":
+                        info.appType = AppType.Swordman;
+                        break;
+                    case "Magician":
+                        info.appType = AppType.Magician;
+                        break;
+                    case "Common":
+                        info.appType = AppType.Common;
+                        break;
+                }
+                info.price_Sell = int.Parse(proArray[9]);
+                info.price_Buy = int.Parse(proArray[10]);
+
+                
+            }
           
             objectInfoDic.Add(info.ID, info);
         }
@@ -86,6 +132,29 @@ public enum objectType
     Drug,
     Equip,
     Mat
+}
+
+/// <summary>
+/// 装备类型
+/// </summary>
+public enum EquipmentType
+{
+    Armor,
+    Headgear,
+    Shoe,
+    LeftHand,
+    RightHand,
+    Accessory
+}
+
+/// <summary>
+/// 角色类型
+/// </summary>
+public enum AppType
+{
+    Swordman,
+    Magician,
+    Common
 }
 /*   
      * ID 
@@ -110,4 +179,10 @@ public class ObjectInfo
     public int recover_MP;
     public int price_Sell;
     public int price_Buy;
+
+    public int attackValue;
+    public int defValue;
+    public int speedValue;
+    public EquipmentType equipmentType;
+    public AppType appType;
 }

@@ -7,6 +7,13 @@ using UnityEngine;
 /// </summary>
 public class Player_State : MonoBehaviour {
 
+    public enum Profession
+    {
+        Swordman,
+        Magician
+    }
+
+    public Profession profession = Profession.Magician;
     public int level = 1;  //等级
     public int HP = 100;   //血量
     public int MP = 100;   //魔力值
@@ -44,5 +51,5 @@ public class Player_State : MonoBehaviour {
         return false;
     }
 
-	
+    
 }

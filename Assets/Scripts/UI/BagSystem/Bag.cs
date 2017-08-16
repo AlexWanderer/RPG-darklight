@@ -21,6 +21,7 @@ public class Bag : MonoBehaviour {
     public Camera uiCamera;
     public ItemDecUI itemDecUI;
     public Player_State playerState; //玩家状态
+    
 
     private bool isDrag = false; //用于判断是否处于拖拽
     private bool showingBag = false; //用于判断背包是否在显示
@@ -43,7 +44,8 @@ public class Bag : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            GetID(Random.Range(1001, 1004));
+            GetID(Random.Range(2001,2023));
+           
         }
 
         Vector2 position;
@@ -226,6 +228,35 @@ public class Bag : MonoBehaviour {
         string text = GetDecText(info);
         itemDecUI.UpdateText(text);
         showingDec = true;
+/*
+        //按下右键穿戴装备 or 使用药水
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log(info.name_Icon);
+            switch (info.type)
+            {
+                case objectType.Drug:
+                    break;
+                case objectType.Equip:  //穿戴装备
+                    bool dressSuccess = false;
+                    dressSuccess = Equipment._instanceEquip.DressEquipment(info);
+                    if (dressSuccess)  
+                    {
+                        if (bagItemGrid.count > 1)  //判断装备数量  大于1则数量减一更新显示
+                        {
+                            bagItemGrid.count--;
+                            bagItemGrid.itemCount.text = bagItemGrid.count.ToString()
+;
+                        }
+                        else
+                        {  //如果装备数量为1  则删除图标并清空格子
+                            Destroy(gridTransform.GetChild(1).gameObject);
+                            bagItemGrid.Clear();
+                        }
+                    }
+                    break;
+            }
+        }*/
     }
 
     /// <summary>
@@ -256,6 +287,9 @@ public class Bag : MonoBehaviour {
                 str.AppendFormat("回血量：{0}\n回蓝量：{1}\n\n", decInfo.recover_HP, decInfo.recover_MP);
                 break;
             case objectType.Equip:
+                string strEquip = decInfo.equipmentType.ToString();
+                string strApp = decInfo.appType.ToString();
+                str.AppendFormat("装备类型：{0}\n职业：{1}\n攻击力：{2}\n防御力：{3}\n速度：{4}\n\n", strEquip, strApp, decInfo.attackValue, decInfo.defValue, decInfo.speedValue);
                 break;
             case objectType.Mat:
                 break;
@@ -272,4 +306,6 @@ public class Bag : MonoBehaviour {
     {
         coinText.text = playerState.gold.ToString();
     }
+
+    
 }
