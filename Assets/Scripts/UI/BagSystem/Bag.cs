@@ -27,7 +27,7 @@ public class Bag : MonoBehaviour {
     private bool showingBag = false; //用于判断背包是否在显示
     private bool showingDec = false; //用于判断详情面板是否显示
     private bool getSuccess = false; //用于判断是否成功放入背包
-    
+    private BagItemGrid dressGrid = null;
 
     private void Awake()
     {
@@ -60,6 +60,40 @@ public class Bag : MonoBehaviour {
         {
             
             itemDecUI.SetLocalPosition(position);
+        }
+
+        
+        //按下右键穿戴装备 or 使用药水
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (dressGrid.id != 0)
+            {
+                switch (dressGrid.info.type)
+                {
+                    case objectType.Drug:
+                        break;
+                    case objectType.Equip:  //穿戴装备
+                        bool dressSuccess = false;
+                        dressSuccess = Equipment._instanceEquip.DressEquipment(dressGrid.info);
+                        if (dressSuccess)
+                        {
+                            if (dressGrid.count > 1)  //判断装备数量  大于1则数量减一更新显示
+                            {
+                                dressGrid.count--;
+                                dressGrid.itemCount.text = dressGrid.count.ToString()
+    ;
+                            }
+                            else
+                            {  //如果装备数量为1  则删除图标并清空格子
+                                Destroy(dressGrid.transform.GetChild(1).gameObject);
+                                dressGrid.Clear();
+                            }
+                        }
+                        break;
+                }
+
+            }
+           
         }
     }
 
@@ -224,39 +258,12 @@ public class Bag : MonoBehaviour {
         {
             return;
         }
+        dressGrid = bagItemGrid;
         itemDecUI.ShowDec();
         string text = GetDecText(info);
         itemDecUI.UpdateText(text);
         showingDec = true;
-/*
-        //按下右键穿戴装备 or 使用药水
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log(info.name_Icon);
-            switch (info.type)
-            {
-                case objectType.Drug:
-                    break;
-                case objectType.Equip:  //穿戴装备
-                    bool dressSuccess = false;
-                    dressSuccess = Equipment._instanceEquip.DressEquipment(info);
-                    if (dressSuccess)  
-                    {
-                        if (bagItemGrid.count > 1)  //判断装备数量  大于1则数量减一更新显示
-                        {
-                            bagItemGrid.count--;
-                            bagItemGrid.itemCount.text = bagItemGrid.count.ToString()
-;
-                        }
-                        else
-                        {  //如果装备数量为1  则删除图标并清空格子
-                            Destroy(gridTransform.GetChild(1).gameObject);
-                            bagItemGrid.Clear();
-                        }
-                    }
-                    break;
-            }
-        }*/
+
     }
 
     /// <summary>

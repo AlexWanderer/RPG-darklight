@@ -14,49 +14,6 @@ public class BagItemGrid : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDrag
     public ObjectInfo info = null;  //物品信息
     public Text itemCount;  //用于显示物品数量
 
-
-    private void Update()
-    {
-        //按下右键穿戴装备 or 使用药水
-        if (Input.GetMouseButtonDown(1))
-        {
-            
-            ObjectInfo info = ObjectsInfo._instance.GetObjectInfoById(id);
-            
-            if (info != null)
-            {
-                Debug.Log(info.name_Icon);
-                switch (info.type)
-                {
-                    case objectType.Drug:
-                        break;
-                    case objectType.Equip:  //穿戴装备
-                        bool dressSuccess = false;
-                        dressSuccess = Equipment._instanceEquip.DressEquipment(info);
-                        if (dressSuccess)
-                        {
-                            if (count > 1)  //判断装备数量  大于1则数量减一更新显示
-                            {
-                                count--;
-                                itemCount.text = count.ToString()
-    ;
-                            }
-                            else
-                            {  //如果装备数量为1  则删除图标并清空格子
-                                Destroy(transform.GetChild(1).gameObject);
-                                Clear();
-                            }
-                        }
-                        break;
-                }
-            }
-            
-        }
-    }
-
-
-
-
     /// <summary>
     /// 将对应的物品显示在Grid方格中
     /// </summary>
