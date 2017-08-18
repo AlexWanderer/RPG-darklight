@@ -27,6 +27,7 @@ public class Bag : MonoBehaviour {
     private bool showingBag = false; //用于判断背包是否在显示
     private bool showingDec = false; //用于判断详情面板是否显示
     private bool getSuccess = false; //用于判断是否成功放入背包
+    private bool dressSuccess = false;
     private BagItemGrid dressGrid = null;
 
     private void Awake()
@@ -64,7 +65,7 @@ public class Bag : MonoBehaviour {
 
         
         //按下右键穿戴装备 or 使用药水
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)&& dressGrid != null)
         {
             if (dressGrid.id != 0)
             {
@@ -73,7 +74,7 @@ public class Bag : MonoBehaviour {
                     case objectType.Drug:
                         break;
                     case objectType.Equip:  //穿戴装备
-                        bool dressSuccess = false;
+                        
                         dressSuccess = Equipment._instanceEquip.DressEquipment(dressGrid.info);
                         if (dressSuccess)
                         {
@@ -271,6 +272,7 @@ public class Bag : MonoBehaviour {
     /// </summary>
     private void BagItemGrid_OnExit()
     {
+        dressGrid = null;
         itemDecUI.CloseDec();
         showingDec = false;
     }

@@ -15,14 +15,15 @@ public class Equipment : MonoBehaviour {
     private GameObject shoe;
     private GameObject accessory;
 
-    private int headgearID = 0;
-    private int armorID = 0;
-    private int leftHandID = 0;
-    private int rightHandID = 0;
-    private int shoeID = 0;
-    private int accessoryID = 0;
+    private EquipmentGrid headgearGrid;
+    private EquipmentGrid armorGrid;
+    private EquipmentGrid leftHandGrid;
+    private EquipmentGrid rightHandGrid;
+    private EquipmentGrid shoeGrid;
+    private EquipmentGrid accessoryGrid;
 
     private GameObject icon;
+    private Transform tempTransform = null;
     
     private void Awake()
     {
@@ -34,6 +35,31 @@ public class Equipment : MonoBehaviour {
         rightHand = transform.Find("RightHand").gameObject;
         shoe = transform.Find("Shoe").gameObject;
         accessory = transform.Find("Accessory").gameObject;
+
+        getEquipmentGrid();
+
+        EquipmentGrid.OnEnterEquip += EquipmentGrid_OnEnterEquip;
+        EquipmentGrid.OnExitEquip += EquipmentGrid_OnExitEquip;
+    }
+
+    private void Update()
+    {
+        if (tempTransform != null&& Input.GetMouseButtonDown(1))
+        {
+            if (tempTransform.childCount != 0)
+            {
+                Destroy(tempTransform.GetChild(0).gameObject);
+                EquipmentGrid temp = tempTransform.gameObject.GetComponent<EquipmentGrid>();
+                ObjectInfo tempInfo = ObjectsInfo._instance.GetObjectInfoById(temp.id);
+                Player_State._instancePlayerState.attack_plus -= tempInfo.attackValue;
+                Player_State._instancePlayerState.def_plus -= tempInfo.defValue;
+                Player_State._instancePlayerState.speed_plus -= tempInfo.speedValue;
+                StatusUI._instanceStatus.UpdateStatus();
+                Bag._intanceBag.GetID(temp.id);
+                temp.id = 0;
+                tempTransform = null;
+            }
+        }
     }
 
     /// <summary>
@@ -50,100 +76,114 @@ public class Equipment : MonoBehaviour {
         {
             return false;
         }
-        
+        int oldId = 0;
         switch (info.equipmentType)
         {
+            
             case EquipmentType.Accessory:
-                if (accessoryID == 0)
+                if (accessoryGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, accessory.transform);
-                    accessoryID = info.ID;
+                    accessoryGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = accessoryID;
-                    accessoryID = info.ID;
+                    oldId = accessoryGrid.id;
+                    accessoryGrid.id = info.ID;
                     SetIcon(accessory.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }    
                 break;
             case EquipmentType.Armor:
-                if (armorID == 0)
+                if (armorGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, armor.transform);
-                    armorID = info.ID;
+                    armorGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = armorID;
-                    armorID = info.ID;
+                    oldId = armorGrid.id;
+                    armorGrid.id = info.ID;
                     SetIcon(armor.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }
                 break;
             case EquipmentType.Headgear:
-                if (headgearID == 0)
+                if (headgearGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, headgear.transform);
-                    headgearID = info.ID;
+                    headgearGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = headgearID;
-                    headgearID = info.ID;
+                    oldId = headgearGrid.id;
+                    headgearGrid.id = info.ID;
                     SetIcon(headgear.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }
                 break;
             case EquipmentType.LeftHand:
-                if (leftHandID == 0)
+                if (leftHandGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, leftHand.transform);
-                    leftHandID = info.ID;
+                    leftHandGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = leftHandID;
-                    leftHandID = info.ID;
+                    oldId = leftHandGrid.id;
+                    leftHandGrid.id = info.ID;
                     SetIcon(leftHand.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }
                 break;
             case EquipmentType.RightHand:
-                if (rightHandID == 0)
+                if (rightHandGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, rightHand.transform);
-                    rightHandID = info.ID;
+                    rightHandGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = rightHandID;
-                    rightHandID = info.ID;
+                    oldId = rightHandGrid.id;
+                    rightHandGrid.id = info.ID;
                     SetIcon(rightHand.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }
                 break;
             case EquipmentType.Shoe:
-                if (shoeID == 0)
+                if (shoeGrid.id == 0)
                 {
                     icon = Instantiate(iconPrefab, shoe.transform);
-                    shoeID = info.ID;
+                    shoeGrid.id = info.ID;
                     SetIcon(icon, info);
                 }
                 else
                 {
-                    int oldId = shoeID;
-                    shoeID = info.ID;
+                    oldId = shoeGrid.id;
+                    shoeGrid.id = info.ID;
                     SetIcon(shoe.transform.GetChild(0).gameObject, info);
                     Bag._intanceBag.GetID(oldId, 1);
                 }
                 break;
         }
+
+        if (oldId != 0)
+        {
+            ObjectInfo temp = ObjectsInfo._instance.GetObjectInfoById(oldId);
+            Player_State._instancePlayerState.attack_plus -= temp.attackValue;
+            Player_State._instancePlayerState.def_plus -= temp.defValue;
+            Player_State._instancePlayerState.speed_plus -= temp.speedValue;
+        }
+        Player_State._instancePlayerState.attack_plus += info.attackValue;
+        Player_State._instancePlayerState.def_plus += info.defValue;
+        Player_State._instancePlayerState.speed_plus += info.speedValue;
+        StatusUI._instanceStatus.UpdateStatus();
+
         return true;
     }
 
@@ -161,5 +201,31 @@ public class Equipment : MonoBehaviour {
         iconTemp.GetComponent<RectTransform>().sizeDelta = new Vector2(30, 30);
     }
 
-    
+    /// <summary>
+    /// 用于获取每个装备格子中的脚本
+    /// </summary>
+    private void getEquipmentGrid()
+    {
+        armorGrid = armor.GetComponent<EquipmentGrid>();
+        headgearGrid = headgear.GetComponent<EquipmentGrid>();
+        leftHandGrid = leftHand.GetComponent<EquipmentGrid>();
+        rightHandGrid = rightHand.GetComponent<EquipmentGrid>();
+        shoeGrid = shoe.GetComponent<EquipmentGrid>();
+        accessoryGrid = accessory.GetComponent<EquipmentGrid>();
+
+    }
+
+    /// <summary>
+    /// 鼠标进入格子缓存鼠标所在的格子
+    /// </summary>
+    /// <param name="gridTransform"></param>
+    private void EquipmentGrid_OnEnterEquip(Transform gridTransform)
+    {
+        tempTransform = gridTransform;
+    }
+
+    private void EquipmentGrid_OnExitEquip()
+    {
+        tempTransform = null;
+    }
 }
