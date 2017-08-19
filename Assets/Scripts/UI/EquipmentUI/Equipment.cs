@@ -14,6 +14,7 @@ public class Equipment : MonoBehaviour {
     private GameObject rightHand;
     private GameObject shoe;
     private GameObject accessory;
+    public GameObject statusUI;
 
     private EquipmentGrid headgearGrid;
     private EquipmentGrid armorGrid;
@@ -54,7 +55,10 @@ public class Equipment : MonoBehaviour {
                 Player_State._instancePlayerState.attack_plus -= tempInfo.attackValue;
                 Player_State._instancePlayerState.def_plus -= tempInfo.defValue;
                 Player_State._instancePlayerState.speed_plus -= tempInfo.speedValue;
-                StatusUI._instanceStatus.UpdateStatus();
+                if (statusUI.activeInHierarchy == true)
+                {
+                    StatusUI._instanceStatus.UpdateStatus();
+                }
                 Bag._intanceBag.GetID(temp.id);
                 temp.id = 0;
                 tempTransform = null;
@@ -182,7 +186,10 @@ public class Equipment : MonoBehaviour {
         Player_State._instancePlayerState.attack_plus += info.attackValue;
         Player_State._instancePlayerState.def_plus += info.defValue;
         Player_State._instancePlayerState.speed_plus += info.speedValue;
-        StatusUI._instanceStatus.UpdateStatus();
+        if (statusUI.activeInHierarchy == true)
+        {
+            StatusUI._instanceStatus.UpdateStatus();
+        }
 
         return true;
     }
