@@ -33,7 +33,7 @@ public class SkillGrid : MonoBehaviour {
         skillDes_Tex = transform.Find("SkillDes").gameObject.GetComponent<Text>();
         skillApplyType_Tex = transform.Find("ApplyType").gameObject.GetComponent<Text>();
         needMP_Tex = transform.Find("NeedMP").gameObject.GetComponent<Text>();
-        skillIcon_Mask.SetActive(false);
+        skillIcon_Mask.SetActive(true);
     }
 
     /// <summary>
@@ -55,11 +55,15 @@ public class SkillGrid : MonoBehaviour {
 
     public void CheckLevel(int level)
     {
-        if (skillInfo.applicableLevel < level)
+        if (skillInfo.applicableLevel > level)
         {
             skillIcon_Mask.SetActive(true);
-        } else
+        }
+        else
+        {
             skillIcon_Mask.SetActive(false);
+        }
+            
     }
 
 }

@@ -103,7 +103,6 @@ public class SkillUI : MonoBehaviour {
         SkillGrid[] grids = transform.Find("Panel/Grid").GetComponentsInChildren<SkillGrid>();
         foreach (SkillGrid grid in grids)
         {
-            Debug.Log(grid.skillID);
             grid.CheckLevel(Player_State._instancePlayerState.level);
         }
     }

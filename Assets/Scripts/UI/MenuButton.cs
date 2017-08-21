@@ -100,6 +100,7 @@ public class MenuButton : MonoBehaviour {
         {
             skillUI.SetActive(true);
             showingSkill = true;
+            skillUI.GetComponent<SkillUI>().UpdateShow();
         }
         else
         {
