@@ -21,14 +21,8 @@ public class SkillsInfo : MonoBehaviour {
     /// <returns></returns>
     public SkillInfo GetSkillInfo(int id)
     {
-        Debug.Log(id);
         SkillInfo info = null;
         skillsInfoDictionary.TryGetValue(id, out info);
-        if (info == null)
-        {
-            Debug.Log("worry");
-        }
-        Debug.Log(info.iconName);
         return info;
     }
 

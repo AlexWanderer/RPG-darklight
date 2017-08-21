@@ -51,7 +51,8 @@ public class Bag : MonoBehaviour {
 
         Vector2 position;
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GameObject.Find("Bag").transform as RectTransform, Input.mousePosition, uiCamera, out position);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle
+            (GameObject.Find("Bag").transform as RectTransform, Input.mousePosition, uiCamera, out position);
         if (isDrag)
         {
             

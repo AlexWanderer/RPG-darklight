@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class SkillGrid : MonoBehaviour {
 
-    private int skillID;
+    public int skillID;
+    private GameObject skillIcon_Mask;
     private SkillInfo skillInfo;
 
     private Image skillIcon_Img;
@@ -14,6 +15,12 @@ public class SkillGrid : MonoBehaviour {
     private Text skillDes_Tex;
     private Text skillApplyType_Tex;
     private Text needMP_Tex;
+
+    private void Awake()
+    {
+        skillIcon_Mask = transform.FindChild("SkillIcon_Mask").gameObject;
+    }
+
 
     /// <summary>
     /// 初始化显示的组件
@@ -26,6 +33,7 @@ public class SkillGrid : MonoBehaviour {
         skillDes_Tex = transform.Find("SkillDes").gameObject.GetComponent<Text>();
         skillApplyType_Tex = transform.Find("ApplyType").gameObject.GetComponent<Text>();
         needMP_Tex = transform.Find("NeedMP").gameObject.GetComponent<Text>();
+        skillIcon_Mask.SetActive(false);
     }
 
     /// <summary>
@@ -35,13 +43,7 @@ public class SkillGrid : MonoBehaviour {
     {
         InitProprety();
         skillID = id;
-        Debug.Log(skillID);
         skillInfo = SkillsInfo._instanceSkill.GetSkillInfo(skillID);
-        if (skillInfo == null)
-        {
-            Debug.Log("warry");
-        }
-        Debug.Log(skillInfo.iconName);
         string temp = "Icon/" + skillInfo.iconName;
         skillIcon_Img.sprite = Resources.Load(temp, typeof(Sprite)) as Sprite;
         skillName_Tex.text = skillInfo.name;
@@ -49,6 +51,15 @@ public class SkillGrid : MonoBehaviour {
         skillDes_Tex.text = skillInfo.des;
         skillApplyType_Tex.text = skillInfo.applyType.ToString();
         needMP_Tex.text = skillInfo.needMP + "MP";
+    }
+
+    public void CheckLevel(int level)
+    {
+        if (skillInfo.applicableLevel < level)
+        {
+            skillIcon_Mask.SetActive(true);
+        } else
+            skillIcon_Mask.SetActive(false);
     }
 
 }

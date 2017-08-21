@@ -12,4 +12,5 @@ public class Tags : MonoBehaviour {
     public const string player = "Player";  //玩家标签
     public const string grid = "Grid";  //背包格子
     public const string equipGrid = "EquipGrid"; //装备格子
+    public const string shotCutGrid = "ShotCutGrid"; //快捷栏
 }
