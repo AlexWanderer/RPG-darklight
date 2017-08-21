@@ -9,8 +9,10 @@ public class MenuButton : MonoBehaviour {
 
     public bool showingStatus = false;
     public bool showingEquipment = false;
+    public bool showingSkill = false;
     public GameObject statusUI;
     public GameObject equipment;
+    public GameObject skillUI;
 
     /// <summary>
     /// 按下Status按键
@@ -25,7 +27,7 @@ public class MenuButton : MonoBehaviour {
     /// </summary>
     public void ClickBtSkillDown()
     {
-
+        SkillUIState();
     }
 
     /// <summary>
@@ -86,6 +88,23 @@ public class MenuButton : MonoBehaviour {
         {
             showingEquipment = false;
             equipment.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 控制技能面板的显示与隐藏
+    /// </summary>
+    private void SkillUIState()
+    {
+        if (!showingSkill)
+        {
+            skillUI.SetActive(true);
+            showingSkill = true;
+        }
+        else
+        {
+            skillUI.SetActive(false);
+            showingSkill = false;
         }
     }
 }

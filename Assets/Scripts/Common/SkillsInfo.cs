@@ -11,6 +11,7 @@ public class SkillsInfo : MonoBehaviour {
     private void Awake()
     {
         _instanceSkill = this;
+        ReadSkillText();
     }
 
     /// <summary>
@@ -18,10 +19,16 @@ public class SkillsInfo : MonoBehaviour {
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public SkillInfo GetSkillInfoById(int id)
+    public SkillInfo GetSkillInfo(int id)
     {
+        Debug.Log(id);
         SkillInfo info = null;
         skillsInfoDictionary.TryGetValue(id, out info);
+        if (info == null)
+        {
+            Debug.Log("worry");
+        }
+        Debug.Log(info.iconName);
         return info;
     }
 
@@ -111,7 +118,7 @@ public class SkillsInfo : MonoBehaviour {
             }
 
             info.releaseDec = float.Parse(proArray[13]);
-
+            skillsInfoDictionary.Add(info.ID, info);
         }
     }
 
