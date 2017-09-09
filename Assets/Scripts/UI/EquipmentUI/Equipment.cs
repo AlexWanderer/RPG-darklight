@@ -37,10 +37,15 @@ public class Equipment : MonoBehaviour {
         shoe = transform.Find("Shoe").gameObject;
         accessory = transform.Find("Accessory").gameObject;
 
-        getEquipmentGrid();
+
 
         EquipmentGrid.OnEnterEquip += EquipmentGrid_OnEnterEquip;
         EquipmentGrid.OnExitEquip += EquipmentGrid_OnExitEquip;
+    }
+
+    private void Start()
+    {
+        getEquipmentGrid();
     }
 
     private void Update()

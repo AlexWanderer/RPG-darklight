@@ -22,6 +22,7 @@ public class Bag : MonoBehaviour {
     public ItemDecUI itemDecUI;
     public Player_State playerState; //玩家状态
     
+    
 
     private bool isDrag = false; //用于判断是否处于拖拽
     private bool showingBag = false; //用于判断背包是否在显示
@@ -238,6 +239,20 @@ public class Bag : MonoBehaviour {
 
                     enterGrid.SetByID(oldID, oldCount);
 
+                }
+            }else if (enterTransform.tag == Tags.shotCutGrid)
+            {
+                ShotCutGrid shotCutGrid = enterTransform.GetComponent<ShotCutGrid>();
+                BagItemGrid bagItemGrid = oldTransform.GetComponent<BagItemGrid>();
+                if(bagItemGrid.info.type == objectType.Drug)
+                {
+                    shotCutGrid.id = bagItemGrid.id;
+                    oldTransform.GetChild(1).gameObject.GetComponent<Image>().enabled = true;
+                    Image image = shotCutGrid.transform.FindChild("Image").GetComponent<Image>();
+                    ObjectInfo info = ObjectsInfo._instance.GetObjectInfoById(shotCutGrid.id);
+                    image.gameObject.SetActive(true);
+                    string path = "Icon/" + info.name_Icon;
+                    image.sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
                 }
             }
             else //拖到了背包的其他地方，位置复原

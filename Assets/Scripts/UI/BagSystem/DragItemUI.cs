@@ -43,7 +43,7 @@ public class DragItemUI : MonoBehaviour
         ObjectInfo info = ObjectsInfo._instance.GetObjectInfoById(id);
         image.name = info.name_Icon;
         string path = "Icon/" + info.name_Icon;
-        image.sprite = Resources.Load(path) as Sprite;
+        image.sprite = Resources.Load(path,typeof(Sprite) )as Sprite;
         
     }
 }

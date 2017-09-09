@@ -13,4 +13,5 @@ public class Tags : MonoBehaviour {
     public const string grid = "Grid";  //背包格子
     public const string equipGrid = "EquipGrid"; //装备格子
     public const string shotCutGrid = "ShotCutGrid"; //快捷栏
+    public const string minimapCamera = "MiniMapCamera"; //小地图摄像机
 }
